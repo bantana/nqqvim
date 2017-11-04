@@ -4,9 +4,11 @@
 " Specify a directory for plugins (for Neovim: ~/.local/share/nvim/plugged)
 call plug#begin('~/.vim/plugged')
 Plug 'junegunn/vim-easy-align'
+Plug 'garyburd/go-explorer'
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'majutsushi/tagbar'
+Plug 'Shougo/deoplete.nvim'
 Plug 'fatih/vim-go', { 'tag': '*' }
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'tomtom/tcomment_vim'
@@ -32,14 +34,18 @@ Plug 'easymotion/vim-easymotion'
 
 Plug 'lambdalisue/gina.vim'
 
+Plug 'mattn/emmet-vim'
+
 " swift lang
-Plug 'Shougo/deoplete.nvim'
 " Plug 'mitsuse/autocomplete-swift'
 " Plug 'landaire/deoplete-swift'
 " Plug 'kballard/vim-swift'
 " Plug 'keith/swift.vim'
 " Plug 'bantana/swiftsnippets'
 " Plug 'keith/sourcekitten.vim'
+
+" typescript lang
+Plug 'leafgarland/typescript-vim'
 
 Plug 'Valloric/YouCompleteMe'
 " Initialize plugin system
@@ -340,8 +346,8 @@ let g:tagbar_type_go = {
   let g:go_fmt_fail_silently = 1
   let g:go_fmt_experimental = 1
   let g:go_doc_keywordprg_enabled = 1
-  let g:go_bin_path = expand("~/bin")
-  "let g:go_bin_path = "/Users/bantana/bin"
+  " let g:go_bin_path = expand("~/bin")
+  let g:go_bin_path = "/Users/bantana/bin"
   let g:go_highlight_array_whitespace_error = 1
   let g:go_highlight_chan_whitespace_error = 1
   let g:go_highlight_extra_types = 1
@@ -398,4 +404,11 @@ set statusline+=%{MyGitStatus()}
 set statusline+=%=                             "right alignment
 set statusline+=[%{strlen(&fenc)?&fenc:&enc}]  "file encoding
 set statusline+=%-16(\ %l,%c-%v\ %)\ %P         "cursor row, col, Percentage
+" }}}
+" typescript lang------------------------------ {{{
+let g:typescript_compiler_binary = 'tsc'
+let g:typescript_compiler_options = ''
+autocmd FileType typescript :set makeprg=tsc
+autocmd QuickFixCmdPost [^l]* nested cwindow
+autocmd QuickFixCmdPost    l* nested lwindow
 " }}}
