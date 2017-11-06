@@ -36,6 +36,9 @@ Plug 'lambdalisue/gina.vim'
 
 Plug 'mattn/emmet-vim'
 
+" typescript lang
+Plug 'mhartington/nvim-typescript'
+
 " swift lang
 " Plug 'mitsuse/autocomplete-swift'
 " Plug 'landaire/deoplete-swift'
@@ -76,6 +79,7 @@ set ignorecase                    " Case-insensitive searching.
 set smartcase                     " But case-sensitive if expression contains a capital letter.
 
 set number                        " Show line numbers.
+set relativenumber
 set ruler                         " Show cursor position.
 
 set incsearch                     " Highlight matches as you type.
@@ -382,7 +386,7 @@ nnoremap <silent> <leader>gg :FZF<cr>
 " statusline ------------------------------- {{{
 set statusline=...%{MyGitStatus()}...
 
-function MyGitStatus() abort
+function! MyGitStatus() abort
   let staged = gina#component#status#staged()
   let unstaged = gina#component#status#unstaged()
   let conflicted = gina#component#status#conflicted()
@@ -413,3 +417,20 @@ autocmd FileType typescript :set makeprg=tsc
 autocmd QuickFixCmdPost [^l]* nested cwindow
 autocmd QuickFixCmdPost    l* nested lwindow
 " }}}
+let s:hidden_all = 0
+function! ToggleHiddenAll()
+    if s:hidden_all  == 0
+        let s:hidden_all = 1
+        set noshowmode
+        set noruler
+        set laststatus=0
+        set noshowcmd
+    else
+        let s:hidden_all = 0
+        set showmode
+        set ruler
+        set laststatus=2
+        set showcmd
+    endif
+endfunction
+nnoremap <S-h> :call ToggleHiddenAll()<CR>
