@@ -37,8 +37,12 @@ Plug 'lambdalisue/gina.vim'
 Plug 'mattn/emmet-vim'
 
 " typescript lang
-Plug 'mhartington/nvim-typescript'
-
+Plug 'leafgarland/typescript-vim'
+" Plug 'HerringtonDarkholme/yats.vim'
+Plug 'Quramy/tsuquyomi'
+Plug 'prettier/vim-prettier', {
+  \ 'do': 'yarn install',
+  \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown'] }
 " swift lang
 " Plug 'mitsuse/autocomplete-swift'
 " Plug 'landaire/deoplete-swift'
@@ -46,9 +50,6 @@ Plug 'mhartington/nvim-typescript'
 " Plug 'keith/swift.vim'
 " Plug 'bantana/swiftsnippets'
 " Plug 'keith/sourcekitten.vim'
-
-" typescript lang
-Plug 'leafgarland/typescript-vim'
 
 Plug 'Valloric/YouCompleteMe'
 " Initialize plugin system
@@ -434,3 +435,12 @@ function! ToggleHiddenAll()
     endif
 endfunction
 nnoremap <S-h> :call ToggleHiddenAll()<CR>
+
+" Prettier
+nmap <leader>py <Plug>(Prettier)
+let g:prettier#autoformat = 0
+let g:prettier#exec_cmd_path = "/usr/local/bin/prettier"
+let g:prettier#exec_cmd_async = 1
+" let g:prettier#quickfix_enabled = 0
+let g:prettier#autoformat = 0
+autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md PrettierAsync
