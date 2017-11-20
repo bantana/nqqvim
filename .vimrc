@@ -21,7 +21,9 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'cespare/vim-toml'
 Plug 'gagoar/StripWhiteSpaces'
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'w0rp/ale'
+" Plug 'w0rp/ale'
+" like ale
+Plug 'sheerun/vim-polyglot'
 
 Plug 'chriskempson/base16-vim'
 Plug 'morhetz/gruvbox'
@@ -371,6 +373,8 @@ let g:tagbar_type_go = {
   "let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck']
   " shortkey
   " au FileType go nmap <Leader>s <Plug>(go-implements)
+  nnoremap <leader>es :vsplit ~/.vim/plugged/vim-snippets/snippets/
+
   set invsplitbelow
   let g:go_term_mode = "split"
   let g:go_term_enabled = 1
@@ -404,7 +408,7 @@ endfunction
 set statusline=[%n]\                           "buffernr
 set statusline+=%<%F\                          "File+path
 set statusline+=%y\                            "FileType
-set statusline+=%{ALEGetStatusLine()}\         "ale status"
+" set statusline+=%{ALEGetStatusLine()}\         "ale status"
 "set statusline+=%{fugitive#statusline()}\      "fugitive#statusline"
 set statusline+=%{MyGitStatus()}
 set statusline+=%=                             "right alignment
@@ -441,6 +445,6 @@ nmap <leader>py <Plug>(Prettier)
 let g:prettier#autoformat = 0
 let g:prettier#exec_cmd_path = "/usr/local/bin/prettier"
 let g:prettier#exec_cmd_async = 1
-" let g:prettier#quickfix_enabled = 0
+let g:prettier#quickfix_enabled = 0
 let g:prettier#autoformat = 0
 autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md PrettierAsync
