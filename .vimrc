@@ -21,7 +21,7 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'cespare/vim-toml'
 Plug 'gagoar/StripWhiteSpaces'
 Plug 'christoomey/vim-tmux-navigator'
-" Plug 'w0rp/ale'
+Plug 'w0rp/ale'
 " like ale
 Plug 'sheerun/vim-polyglot'
 
@@ -37,9 +37,12 @@ Plug 'easymotion/vim-easymotion'
 Plug 'lambdalisue/gina.vim'
 
 Plug 'mattn/emmet-vim'
+Plug 'corylanou/vim-present'
+Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 
 " typescript lang
 Plug 'leafgarland/typescript-vim'
+Plug 'posva/vim-vue'
 " Plug 'HerringtonDarkholme/yats.vim'
 Plug 'Quramy/tsuquyomi'
 Plug 'prettier/vim-prettier', {
@@ -126,18 +129,18 @@ set statusline=[%n]\ %<%.99f\ %h%w%m%r%y\ %{exists('*CapsLockStatusline')?CapsLo
 " NERDTree
 let NERDTreeShowHidden=0
 
-" CtrlP
-if executable('ag')
-        " Use ag over grep
-        set grepprg=ag\ --nogroup\ --nocolor
-
-        " Use ag in CtrlP for listing files. Lightning fast and
-        " respects .gitignore
-        let g:ctrlp_user_command = 'ag -i %s -l --nocolor -g ""'
-
-        " ag is fast enough that CtrlP doesn't need to cache
-        let g:ctrlp_use_caching = 0
-endif
+" " CtrlP
+" if executable('ag')
+"         " Use ag over grep
+"         set grepprg=ag\ --nogroup\ --nocolor
+"
+"         " Use ag in CtrlP for listing files. Lightning fast and
+"         " respects .gitignore
+"         let g:ctrlp_user_command = 'ag -i %s -l --nocolor -g ""'
+"
+"         " ag is fast enough that CtrlP doesn't need to cache
+"         let g:ctrlp_use_caching = 0
+" endif
 
 " Color Scheme
 set t_Co=256
@@ -274,9 +277,9 @@ let g:mundo_preview_statusline = "Mundo Preview"
 " }}}
 
 " Tabs, spaces, wrapping ------------------- {{{
-set tabstop=4
-set shiftwidth=4
-set softtabstop=4
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
 set expandtab
 set wrap
 set textwidth=110 "80-width lines is for 1995"
@@ -408,8 +411,8 @@ endfunction
 set statusline=[%n]\                           "buffernr
 set statusline+=%<%F\                          "File+path
 set statusline+=%y\                            "FileType
-" set statusline+=%{ALEGetStatusLine()}\         "ale status"
-"set statusline+=%{fugitive#statusline()}\      "fugitive#statusline"
+set statusline+=%{ALEGetStatusLine()}\         "ale status"
+set statusline+=%{fugitive#statusline()}\      "fugitive#statusline"
 set statusline+=%{MyGitStatus()}
 set statusline+=%=                             "right alignment
 set statusline+=[%{strlen(&fenc)?&fenc:&enc}]  "file encoding
@@ -448,3 +451,66 @@ let g:prettier#exec_cmd_async = 1
 let g:prettier#quickfix_enabled = 0
 let g:prettier#autoformat = 0
 autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md PrettierAsync
+" ctrlp ------------------------ {{{
+" +++ CtrlP +++
+let g:ctrlp_match_window_bottom = 0
+let g:ctrlp_max_height = 10
+let g:ctrlp_mruf_max = 250
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/]\.(git|hg|svn|build)$',
+  \ 'file': '\v\.(exe|so|dll)$',
+  \ 'link': 'SOME_BAD_SYMBOLIC_LINKS',
+  \ }
+
+func! MyPrtMappings()
+  let g:ctrlp_prompt_mappings = {
+  \ 'AcceptSelection("e")': ['<c-t>'],
+  \ 'AcceptSelection("t")': ['<cr>', '<2-LeftMouse>'],
+  \ }
+endfunc
+
+func! MyCtrlPTag()
+let g:ctrlp_prompt_mappings = {
+\ 'AcceptSelection("e")': ['<cr>', '<2-LeftMouse>'],
+\ 'AcceptSelection("t")': ['<c-t>'],
+\ }
+CtrlPBufTag
+endfunc
+
+let g:ctrlp_buffer_func = { 'exit': 'MyPrtMappings' }
+com! MyCtrlPTag call MyCtrlPTag()
+
+let g:ctrlp_buftag_types = {
+\ 'go'         : '--language-force=go --golang-types=ftv',
+\ 'coffee'     : '--language-force=coffee --coffee-types=cmfvf',
+\ 'markdown'   : '--language-force=markdown --markdown-types=hik',
+\ 'objc'       : '--language-force=objc --objc-types=mpci',
+\ 'rc'         : '--language-force=rust --rust-types=fTm'
+\ }
+let g:ctrlp_cmd = 'CtrlPMixed'
+" let g:ctrlp_by_filename = 1
+let g:ctrlp_by_filename = 0
+let g:ctrlp_match_window = 'top,order:ttb'
+let g:ctrlp_switch_buffer = 'et'
+let g:ctrlp_working_path_mode = 0
+let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+let g:ctrlp_use_caching = 0
+let g:ctrlp_open_new_file = 'et'
+
+map <leader>p :ClearCtrlPCache<cr>:CtrlP<enter>
+
+" map <leader>p :FZF<enter>
+" " nmap ' :Buffers<enter>
+" map <leader>p :call fzf#run({'sink': 'tabedit'})<cr>
+" let g:fzf_layout = { 'up': '~50%' }
+" let g:fzf_buffers_jump = 1
+" let $FZF_DEFAULT_COMMAND = 'rg --files'
+"
+" command! -bang -nargs=* Rg
+"   \ call fzf#vim#grep(
+"   \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
+"   \   <bang>0 ? fzf#vim#with_preview('up:60%')
+"   \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+"   \   <bang>0)
+
+" }}}
