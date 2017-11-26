@@ -17,6 +17,9 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'mileszs/ack.vim'
 Plug 'ctrlpvim/ctrlp.vim'
+Plug 'francoiscabrol/ranger.vim'
+Plug 'rbgrouleff/bclose.vim'
+" Plug 'alvan/vim-closetag'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'cespare/vim-toml'
 Plug 'gagoar/StripWhiteSpaces'
@@ -130,17 +133,17 @@ set statusline=[%n]\ %<%.99f\ %h%w%m%r%y\ %{exists('*CapsLockStatusline')?CapsLo
 let NERDTreeShowHidden=0
 
 " " CtrlP
-" if executable('ag')
-"         " Use ag over grep
-"         set grepprg=ag\ --nogroup\ --nocolor
-"
-"         " Use ag in CtrlP for listing files. Lightning fast and
-"         " respects .gitignore
-"         let g:ctrlp_user_command = 'ag -i %s -l --nocolor -g ""'
-"
-"         " ag is fast enough that CtrlP doesn't need to cache
-"         let g:ctrlp_use_caching = 0
-" endif
+if executable('ag')
+        " Use ag over grep
+        set grepprg=ag\ --nogroup\ --nocolor
+
+        " Use ag in CtrlP for listing files. Lightning fast and
+        " respects .gitignore
+        let g:ctrlp_user_command = 'ag -i %s -l --nocolor -g ""'
+
+        " ag is fast enough that CtrlP doesn't need to cache
+        let g:ctrlp_use_caching = 0
+endif
 
 " Color Scheme
 set t_Co=256
@@ -177,7 +180,7 @@ map <Leader><bar> :vsplit<CR>
 
 map <leader>n :NERDTreeToggle<cr>
 map <leader>g :Git<Space>
-map <leader>c :CtrlPClearAllCaches<cr>
+" map <leader>c :CtrlPClearAllCaches<cr>
 map <leader>/ :Ack<Space>
 map <leader>p :YRShow<cr>
 
@@ -456,8 +459,11 @@ autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.gra
 let g:ctrlp_match_window_bottom = 0
 let g:ctrlp_max_height = 10
 let g:ctrlp_mruf_max = 250
+"  \ 'dir':  '\v[\/]\.(git|hg|svn|build)$',
+" \ 'dir': '^build$\|^node_modules$',
+" \ 'dir':  '\v[\/](^node_modules$)|(\.(git|hg|svn|build))$',
 let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/]\.(git|hg|svn|build)$',
+  \ 'dir':  '\v[\/]\.(git|hg|svn|build|node_modules)$',
   \ 'file': '\v\.(exe|so|dll)$',
   \ 'link': 'SOME_BAD_SYMBOLIC_LINKS',
   \ }
@@ -497,7 +503,7 @@ let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 let g:ctrlp_use_caching = 0
 let g:ctrlp_open_new_file = 'et'
 
-map <leader>p :ClearCtrlPCache<cr>:CtrlP<enter>
+map <leader>c :ClearCtrlPCache<cr>:CtrlP<enter>
 
 " map <leader>p :FZF<enter>
 " " nmap ' :Buffers<enter>
@@ -513,4 +519,15 @@ map <leader>p :ClearCtrlPCache<cr>:CtrlP<enter>
 "   \           : fzf#vim#with_preview('right:50%:hidden', '?'),
 "   \   <bang>0)
 
+" }}}
+" range {{{
+map <leader>f :Ranger<CR>
+let g:NERDTreeHijackNetrw = 0 "// add this line if you use NERDTree
+let g:ranger_replace_netrw = 1 "// open ranger when vim open a directory
+" }}}
+" fix filetype {{{
+au BufNewFile,BufRead *.js set filetype=javascript
+" }}}
+" ale always {{{
+let g:ale_sign_column_always=1
 " }}}
