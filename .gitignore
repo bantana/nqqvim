@@ -1,1 +1,6 @@
 plugged
+.vim/undo
+.vim/view
+.vim/.netrwhist
+.vim/autoload/gocomplete.vim
+.vim/ftplugin/
