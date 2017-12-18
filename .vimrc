@@ -8,7 +8,10 @@ Plug 'garyburd/go-explorer'
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'majutsushi/tagbar'
-Plug 'Shougo/deoplete.nvim'
+Plug 'roxma/vim-hug-neovim-rpc'
+Plug 'roxma/nvim-yarp'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" Plug 'wokalski/autocomplete-flow'
 Plug 'fatih/vim-go', { 'tag': '*' }
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'tomtom/tcomment_vim'
@@ -33,7 +36,7 @@ Plug 'morhetz/gruvbox'
 Plug 'ryanoasis/vim-devicons'
 
 Plug 'wannesm/wmgraphviz.vim'
-Plug 'thinca/vim-quickrun'
+Plug 'thinca/vim-quickrun', { 'tag': 'v0.7.0' }
 Plug 'simnalamburt/vim-mundo'
 Plug 'easymotion/vim-easymotion'
 
@@ -43,11 +46,17 @@ Plug 'mattn/emmet-vim'
 Plug 'corylanou/vim-present'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 
+" javascript {{{
+Plug 'ternjs/tern_for_vim', { 'do': 'yarn install && yarn global add tern' }
+Plug 'carlitux/deoplete-ternjs'
+" }}}
+
 " typescript lang
 Plug 'leafgarland/typescript-vim'
 Plug 'posva/vim-vue'
 " Plug 'HerringtonDarkholme/yats.vim'
 Plug 'Quramy/tsuquyomi'
+" Plug 'mhartington/deoplete-typescript'
 Plug 'prettier/vim-prettier', {
   \ 'do': 'yarn install',
   \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown'] }
@@ -215,18 +224,18 @@ endfunc
 nnoremap <C-n> :call NumberToggle()<cr>
 
 " swift source_kitten
-let g:deoplete#sources#swift#source_kitten_binary = '/usr/local/bin/sourcekitten'
-let g:deoplete#sources#swift#daemon_autostart = 1
+" let g:deoplete#sources#swift#source_kitten_binary = '/usr/local/bin/sourcekitten'
+" let g:deoplete#sources#swift#daemon_autostart = 1
 
-autocmd FileType swift imap <buffer> <C-k> <Plug>(autocomplete_swift_jump_to_placeholder)
+" autocmd FileType swift imap <buffer> <C-k> <Plug>(autocomplete_swift_jump_to_placeholder)
 
 " pbcopy
 set clipboard=unnamed
 
 " swiftformat
-nnoremap <leader>F :!swiftformat %<cr>
-au FileType swift nmap <leader>r :QuickRun swiftrun<cr>
-au FileType swift nmap <leader>t :QuickRun swifttest<cr>
+" nnoremap <leader>F :!swiftformat %<cr>
+" au FileType swift nmap <leader>r :QuickRun swiftrun<cr>
+" au FileType swift nmap <leader>t :QuickRun swifttest<cr>
 
 nmap <leader>p :setlocal paste! paste?<cr>
 " quickrun
@@ -504,6 +513,8 @@ let g:ctrlp_use_caching = 0
 let g:ctrlp_open_new_file = 'et'
 
 map <leader>c :ClearCtrlPCache<cr>:CtrlP<enter>
+" map <c-p> :ClearCtrlPCache<cr>:CtrlP<enter>
+" unmap <c-p>
 
 " map <leader>p :FZF<enter>
 " " nmap ' :Buffers<enter>
@@ -530,4 +541,24 @@ au BufNewFile,BufRead *.js set filetype=javascript
 " }}}
 " ale always {{{
 let g:ale_sign_column_always=1
+" }}}
+" deoplete new test {{{
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#enable_ignore_case = 1
+let g:deoplete#enable_smart_case = 1
+let g:deoplete#enable_camel_case = 1
+let g:deoplete#enable_refresh_always = 1
+let g:deoplete#max_abbr_width = 0
+let g:deoplete#max_menu_width = 0
+let g:deoplete#omni#input_patterns = get(g:,'deoplete#omni#input_patterns',{})
+call deoplete#custom#set('_', 'matchers', ['matcher_full_fuzzy'])
+
+let g:tern_request_timeout = 1
+let g:tern_request_timeout = 6000
+let g:tern#command = ["tern"]
+let g:tern#arguments = ["--persistent"]
+let g:deoplete#sources#tss#javascript_support = 1
+let g:tsuquyomi_javascript_support = 1
+let g:tsuquyomi_auto_open = 1
+let g:tsuquyomi_disable_quickfix = 1
 " }}}
