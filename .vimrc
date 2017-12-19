@@ -49,6 +49,19 @@ Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 " javascript {{{
 Plug 'ternjs/tern_for_vim', { 'do': 'yarn install && yarn global add tern' }
 Plug 'carlitux/deoplete-ternjs'
+" "$ cat ~/.tern-project
+" {
+"   "plugins": {
+"     "node": {},
+"     "es_modules": {}
+"   },
+"   "libs": [
+"     "browser",
+"     "underscore"
+"   ],
+"   "ecmaVersion": 6
+" }
+"
 " }}}
 
 " typescript lang
@@ -278,6 +291,25 @@ let g:UltiSnipsExpandTrigger = "<tab>"
 let g:UltiSnipsJumpForwardTrigger = "<tab>"
 let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 " }}}.
+" " YouCompleteMe {{{
+" let g:ycm_min_num_of_chars_for_completion = 3
+" let g:ycm_autoclose_preview_window_after_completion=1
+" let g:ycm_complete_in_comments = 1
+" let g:ycm_key_list_select_completion = ['<c-n>', '<Down>']
+" let g:ycm_key_list_previous_completion = ['<c-p>', '<Up>']
+" " 比较喜欢用tab来选择补全...
+" function! MyTabFunction ()
+"     let line = getline('.')
+"     let substr = strpart(line, -1, col('.')+1)
+"     let substr = matchstr(substr, "[^ \t]*$")
+"     if strlen(substr) == 0
+"         return "\<tab>"
+"     endif
+"     return pumvisible() ? "\<c-n>" : "\<c-x>\<c-o>"
+" endfunction
+" inoremap <tab> <c-r>=MyTabFunction()<cr>
+" " }}}
+
 " vim-mundo ------- {{{
 set undofile
 set undodir=~/.vim/undo
