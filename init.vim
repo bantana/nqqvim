@@ -2,15 +2,13 @@
 " Copy or symlink to ~/.vimrc or ~/_vimrc.
 
 " Specify a directory for plugins (for Neovim: ~/.local/share/nvim/plugged)
-call plug#begin('~/.vim/plugged')
+call plug#begin('~/.config/nvim/plugged')
 Plug 'junegunn/vim-easy-align'
 Plug 'garyburd/go-explorer'
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'majutsushi/tagbar'
-" Plug 'roxma/vim-hug-neovim-rpc'
-" Plug 'roxma/nvim-yarp'
-" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 " Plug 'wokalski/autocomplete-flow'
 Plug 'fatih/vim-go', { 'tag': '*' }
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -40,15 +38,15 @@ Plug 'thinca/vim-quickrun', { 'tag': 'v0.7.0' }
 Plug 'simnalamburt/vim-mundo'
 Plug 'easymotion/vim-easymotion'
 
-" Plug 'lambdalisue/gina.vim'
+Plug 'lambdalisue/gina.vim'
 
 Plug 'mattn/emmet-vim'
 Plug 'corylanou/vim-present'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 
 " javascript {{{
-Plug 'ternjs/tern_for_vim', { 'do': 'yarn install && yarn global add tern' }
-" Plug 'carlitux/deoplete-ternjs'
+" Plug 'ternjs/tern_for_vim', { 'do': 'yarn install && yarn global add tern' }
+Plug 'carlitux/deoplete-ternjs'
 " " "$ cat ~/.tern-project
 " " {
 " "   "plugins": {
@@ -71,9 +69,11 @@ Plug 'posva/vim-vue'
 "
 Plug 'Quramy/tsuquyomi'
 " Plug 'mhartington/deoplete-typescript'
+ Plug 'mhartington/nvim-typescript'
+" Plug 'steelsojka/deoplete-flow'
 Plug 'prettier/vim-prettier', {
   \ 'do': 'yarn install',
-  \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown'] }
+  \ 'for': ['css', 'less', 'scss', 'json', 'graphql', 'markdown'] }
 " swift lang
 " Plug 'mitsuse/autocomplete-swift'
 " Plug 'landaire/deoplete-swift'
@@ -110,7 +110,7 @@ set wildmode=list:longest         " Complete files like a shell.
 set ignorecase                    " Case-insensitive searching.
 set smartcase                     " But case-sensitive if expression contains a capital letter.
 
-" set number                        " Show line numbers.
+set number                        " Show line numbers.
 set relativenumber
 set ruler                         " Show cursor position.
 
@@ -193,7 +193,7 @@ let maplocalleader = "\\"
 "inoremap jj <Esc>
 "imap jj <Esc>
 inoremap jj <Esc>
-nnoremap <leader>ev :vsplit ~/.vimrc<cr>
+nnoremap <leader>ev :vsplit ~/.config/nvim/init.vim<cr>
 nnoremap `` <ESC>:bn<cr>
 nnoremap <leader>w :w<cr>
 " Splitting
@@ -437,31 +437,31 @@ set rtp+=/usr/local/opt/fzf
 nnoremap <silent> <leader>gg :FZF<cr>
 " }}}
 " statusline ------------------------------- {{{
-" set statusline=...%{MyGitStatus()}...
-"
-" function! MyGitStatus() abort
-"   let staged = gina#component#status#staged()
-"   let unstaged = gina#component#status#unstaged()
-"   let conflicted = gina#component#status#conflicted()
-"   let branched = gina#component#repo#branch()
-"   return printf(
-"         \ 'b: %s, s: %s, u: %s, c: %s',
-"         \ branched,
-"         \ staged,
-"         \ unstaged,
-"         \ conflicted,
-"         \)
-" endfunction
-" "set statusline=
-" set statusline=[%n]\                           "buffernr
-" set statusline+=%<%F\                          "File+path
-" set statusline+=%y\                            "FileType
-" set statusline+=%{ALEGetStatusLine()}\         "ale status"
-" set statusline+=%{fugitive#statusline()}\      "fugitive#statusline"
-" set statusline+=%{MyGitStatus()}
-" set statusline+=%=                             "right alignment
-" set statusline+=[%{strlen(&fenc)?&fenc:&enc}]  "file encoding
-" set statusline+=%-16(\ %l,%c-%v\ %)\ %P         "cursor row, col, Percentage
+set statusline=...%{MyGitStatus()}...
+
+function! MyGitStatus() abort
+  let staged = gina#component#status#staged()
+  let unstaged = gina#component#status#unstaged()
+  let conflicted = gina#component#status#conflicted()
+  let branched = gina#component#repo#branch()
+  return printf(
+        \ 'b: %s, s: %s, u: %s, c: %s',
+        \ branched,
+        \ staged,
+        \ unstaged,
+        \ conflicted,
+        \)
+endfunction
+"set statusline=
+set statusline=[%n]\                           "buffernr
+set statusline+=%<%F\                          "File+path
+set statusline+=%y\                            "FileType
+set statusline+=%{ALEGetStatusLine()}\         "ale status"
+set statusline+=%{fugitive#statusline()}\      "fugitive#statusline"
+set statusline+=%{MyGitStatus()}
+set statusline+=%=                             "right alignment
+set statusline+=[%{strlen(&fenc)?&fenc:&enc}]  "file encoding
+set statusline+=%-16(\ %l,%c-%v\ %)\ %P         "cursor row, col, Percentage
 " }}}
 " typescript lang------------------------------ {{{
 let g:typescript_compiler_binary = 'tsc'
@@ -495,8 +495,13 @@ let g:prettier#exec_cmd_path = "/usr/local/bin/prettier"
 let g:prettier#exec_cmd_async = 1
 let g:prettier#quickfix_enabled = 0
 let g:prettier#config#bracket_spacing = 0
+" let g:prettier#config#single_quote = 'true'
+" none|es5|all
+let g:prettier#config#trailing_comma = 'all'
+let g:prettier#config#semi = 'true'
 
-autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md PrettierAsync
+" autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md PrettierAsync
+autocmd BufWritePre *.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md PrettierAsync
 " ctrlp ------------------------ {{{
 " +++ CtrlP +++
 let g:ctrlp_match_window_bottom = 0
@@ -575,27 +580,30 @@ let g:ranger_replace_netrw = 1 "// open ranger when vim open a directory
 " }}}
 " ale always {{{
 let g:ale_sign_column_always=1
+let g:ale_fixers = {'javascript': ['prettier_standard']}
+let g:ale_linters = {'javascript': ['']}
+let g:ale_fix_on_save = 1
 " }}}
-" " deoplete new test {{{
-" let g:deoplete#enable_at_startup = 1
-" let g:deoplete#enable_ignore_case = 1
-" let g:deoplete#enable_smart_case = 1
-" let g:deoplete#enable_camel_case = 1
-" let g:deoplete#enable_refresh_always = 1
-" let g:deoplete#max_abbr_width = 0
-" let g:deoplete#max_menu_width = 0
-" let g:deoplete#omni#input_patterns = get(g:,'deoplete#omni#input_patterns',{})
-" call deoplete#custom#set('_', 'matchers', ['matcher_full_fuzzy'])
-"
-" let g:tern_request_timeout = 1
-" let g:tern_request_timeout = 6000
-" let g:tern#command = ["tern"]
-" let g:tern#arguments = ["--persistent"]
-" let g:deoplete#sources#tss#javascript_support = 1
-" let g:tsuquyomi_javascript_support = 1
-" let g:tsuquyomi_auto_open = 1
-" let g:tsuquyomi_disable_quickfix = 1
-" " }}}
+" deoplete new test {{{
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#enable_ignore_case = 1
+let g:deoplete#enable_smart_case = 1
+let g:deoplete#enable_camel_case = 1
+let g:deoplete#enable_refresh_always = 1
+let g:deoplete#max_abbr_width = 0
+let g:deoplete#max_menu_width = 0
+let g:deoplete#omni#input_patterns = get(g:,'deoplete#omni#input_patterns',{})
+call deoplete#custom#set('_', 'matchers', ['matcher_full_fuzzy'])
+
+let g:tern_request_timeout = 1
+let g:tern_request_timeout = 6000
+let g:tern#command = ["tern"]
+let g:tern#arguments = ["--persistent"]
+let g:deoplete#sources#tss#javascript_support = 1
+let g:tsuquyomi_javascript_support = 1
+let g:tsuquyomi_auto_open = 1
+let g:tsuquyomi_disable_quickfix = 1
+" }}}
 " Tern shortkey {{{
 nnoremap  <LocalLeader>tD   :TernDoc<cr>
 nnoremap  <LocalLeader>tb   :TernDocBrowse<cr>
@@ -613,4 +621,5 @@ nnoremap <localLeader>js :set filetype=javascript<cr>
 nnoremap <localLeader>css :set filetype=css<cr>
 nnoremap <localLeader>html :set filetype=html<cr>
 nnoremap <localLeader>md :set filetype=markdown<cr>
+nnoremap <localLeader>vue :set filetype=vue<cr>
 " }}}
