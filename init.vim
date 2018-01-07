@@ -403,7 +403,7 @@ let g:tagbar_type_go = {
   let g:go_fmt_experimental = 1
   let g:go_doc_keywordprg_enabled = 1
   " let g:go_bin_path = expand("~/bin")
-  let g:go_bin_path = "/Users/bantana/bin"
+  let g:go_bin_path = $HOME."/bin"
   let g:go_highlight_array_whitespace_error = 1
   let g:go_highlight_chan_whitespace_error = 1
   let g:go_highlight_extra_types = 1
@@ -552,31 +552,10 @@ let g:ctrlp_use_caching = 0
 let g:ctrlp_open_new_file = 'et'
 
 map <leader>c :ClearCtrlPCache<cr>:CtrlP<enter>
-" map <c-p> :ClearCtrlPCache<cr>:CtrlP<enter>
-" unmap <c-p>
-
-" map <leader>p :FZF<enter>
-" " nmap ' :Buffers<enter>
-" map <leader>p :call fzf#run({'sink': 'tabedit'})<cr>
-" let g:fzf_layout = { 'up': '~50%' }
-" let g:fzf_buffers_jump = 1
-" let $FZF_DEFAULT_COMMAND = 'rg --files'
-"
-" command! -bang -nargs=* Rg
-"   \ call fzf#vim#grep(
-"   \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
-"   \   <bang>0 ? fzf#vim#with_preview('up:60%')
-"   \           : fzf#vim#with_preview('right:50%:hidden', '?'),
-"   \   <bang>0)
-
-" }}}
 " range {{{
 map <leader>f :Ranger<CR>
 let g:NERDTreeHijackNetrw = 0 "// add this line if you use NERDTree
 let g:ranger_replace_netrw = 1 "// open ranger when vim open a directory
-" }}}
-" fix filetype {{{
-" au BufNewFile,BufRead *.js set filetype=javascript
 " }}}
 " ale always {{{
 let g:ale_sign_column_always=1
